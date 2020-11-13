@@ -1,0 +1,4 @@
+> Version 0.01.0
+	-Added Tileset sprites and setup tile pallete
+	-Basic controller setup in Unity
+	-Basic PlayerController Movement
