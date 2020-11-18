@@ -2,3 +2,9 @@
 	-Added Tileset sprites and setup tile pallete
 	-Basic controller setup in Unity
 	-Basic PlayerController Movement
+> Version 0.02.0
+	-Added Map Layout to TestScene
+	-Added several menu sprites
+	-Built Menu Layout
+	-Added Several new scripts and new controls schemes (non-functional)
+	-Added collision and some map tiles that were missing
