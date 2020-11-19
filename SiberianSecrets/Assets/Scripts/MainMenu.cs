@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
@@ -31,7 +32,9 @@ public class MainMenu : MonoBehaviour
 
         //NavigationInput
         controls.MenuNavigation.Navigate.performed += ctx => navigateButtonIndexes(ctx.ReadValue<Vector2>());
+        controls.MenuNavigation.ManipulateValue.performed += ctx => SliderValue(ctx.ReadValue<float>());
         controls.MenuNavigation.Select.performed += ctx => PressButton();
+        controls.MenuNavigation.Cancel.performed += ctx => GoBack();
     }
 
     private void Update()
@@ -45,11 +48,11 @@ public class MainMenu : MonoBehaviour
 
         if (currentActivePanel == menuPanel)
         {
-            if(menuButtonIndex < menuButtonList.Length && navigation.x > 0)
+            if(menuButtonIndex < menuButtonList.Length - 1 && navigation.x > 0)
             {
                 menuButtonIndex++;
             }
-            else if (menuButtonIndex > 0 && navigation.y > 0)
+            else if (menuButtonIndex > 0 && navigation.x < 0)
             {
                 menuButtonIndex--;
             }
@@ -58,11 +61,11 @@ public class MainMenu : MonoBehaviour
         }
         else if (currentActivePanel == settingsPanel)
         {
-            if (settingsButtonIndex < settingsButtonList.Length && navigation.x > 0)
+            if (settingsButtonIndex < settingsButtonList.Length - 1 && navigation.x > 0)
             {
                 settingsButtonIndex++;
             }
-            else if (settingsButtonIndex > 0 && navigation.y > 0)
+            else if (settingsButtonIndex > 0 && navigation.x < 0)
             {
                 settingsButtonIndex--;
             }
@@ -71,11 +74,11 @@ public class MainMenu : MonoBehaviour
         }
         else if (currentActivePanel == tutorialPanel)
         {
-            if (tutorialButtonIndex < tutorialButtonList.Length && navigation.x > 0)
+            if (tutorialButtonIndex < tutorialButtonList.Length - 1 && navigation.x > 0)
             {
                 tutorialButtonIndex++;
             }
-            else if (tutorialButtonIndex > 0 && navigation.y > 0)
+            else if (tutorialButtonIndex > 0 && navigation.x < 0)
             {
                 tutorialButtonIndex = 0;
             }
@@ -84,9 +87,43 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void SliderValue(float increase)
+    {
+        Debug.Log($"Current Slider input is {increase}");
+    }
+
     public void PressButton()
     {
         Button currentButton = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         currentButton.onClick.Invoke();
+    }
+
+    public void GoBack()
+    {
+        //Button backButton = 
+        currentActivePanel = menuPanel;
+        menuPanel.SetActive(true);
+        settingsPanel.SetActive(false);
+        tutorialPanel.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        controls.MenuNavigation.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.MenuNavigation.Disable();
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void CloseGame()
+    {
+        Application.Quit();
     }
 }
