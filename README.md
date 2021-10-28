@@ -1,4 +1,4 @@
-# dj2d-mj2
+# Siberian Secrets Project
 * Working Name: Siberian Secrets
 * Trello Board: https://trello.com/b/tQ3MHV88/portefoliop1-siberian-secrets
 * Itch.io Page: https://nevermore7.itch.io/siberian-secrets
